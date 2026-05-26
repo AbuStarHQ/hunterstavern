@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Domain Name Generator v29</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Domain Name Generator</h1>
+
+    <section class="panel controls">
+      <div class="modeBox">
+        <span>Generation mode</span>
+        <label class="radio"><input type="radio" name="mode" value="prefix" checked /> Prefix + word</label>
+        <label class="radio"><input type="radio" name="mode" value="suffix" /> Word + suffix</label>
+      </div>
+      <label><span id="fixedPartLabel">Strict prefix</span>
+        <input id="prefix" value="" autocomplete="off" />
+      </label>
+      <label>Max name length before dot
+        <input id="maxLength" type="number" min="1" max="63" value="18" />
+      </label>
+      <label>API batch size
+        <input id="batchSize" type="number" min="1" max="2000" value="20" />
+      </label>
+      <label>Check speed
+        <select id="speedMode">
+          <option value="safe">Safe / slower, fewer unknowns</option>
+          <option value="fast" selected>Fast / recommended</option>
+          <option value="turbo">Turbo / fastest, more unknowns possible</option>
+        </select>
+      </label>
+
+      <div class="patternBox">
+        <div class="labelRow">
+          <span>Generated word letter pattern</span>
+          <small>Optional: use ? for any letter</small>
+        </div>
+        <input id="wordPattern" placeholder="Example: ??y or ?o?" autocomplete="off" />
+        <p id="patternHelp" class="miniHelp">Leave empty for any word. Example with prefix play and max length 7: ??y checks play + 3-letter words ending in y; ?o? checks 3-letter words with o in the middle.</p>
+      </div>
+      <div class="wordListPicker">
+        <div class="labelRow">
+          <span>Word list</span>
+          <small>Choose exactly one source list</small>
+        </div>
+
+      <div class="modeBox sourceBox">
+        <span>Generated part source</span>
+        <label class="radio"><input type="radio" name="generationSource" value="wordList" /> Word list</label>
+        <label class="radio"><input type="radio" name="generationSource" value="random" checked /> Random spelling / no word list</label>
+      </div>
+        <div id="wordListOptions" class="wordListOptions">
+          <span class="emptyTag">Loading word lists...</span>
+        </div>
+      </div>
+
+      <div class="tldPicker">
+        <div class="labelRow">
+          <span>Selected TLDs</span>
+          <small>Selected extensions</small>
+        </div>
+        <div id="selectedTlds" class="selectedTlds"></div>
+        <div class="labelRow pickLabel">
+          <span>Add TLD</span>
+          <small>Available extensions</small>
+        </div>
+        <div id="tldOptions" class="tldOptions"></div>
+        <div class="customTld">
+          <input id="customTld" placeholder="Custom TLD, e.g. .app" autocomplete="off" />
+          <button id="addCustomTld" type="button" class="secondary">Add</button>
+        </div>
+      </div>
+
+      <label class="check"><input id="onlyAvailable" type="checkbox" checked /> Show available only</label>
+      <div class="buttons">
+        <button id="start">Start unlimited scan</button>
+        <button id="stop" class="secondary">Stop</button>
+        <button id="clear" class="ghost">Clear</button>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div><strong id="dictCount">—</strong><span>English-only words loaded</span></div>
+      <div><strong id="generated">0</strong><span>checked</span></div>
+      <div><strong id="available">0</strong><span>confirmed available found</span></div>
+      <div><strong id="unknown">0</strong><span>unknown / not shown</span></div>
+      <div><strong id="cursor">0</strong><span>dictionary position</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="resultsHead">
+        <div>
+          <h2>Availability sorting board</h2>
+          <p id="status">Ready. Choose your settings and start scanning. Results show only confirmed available domains.</p>
+        </div>
+        <div class="copyButtons">
+          <button id="copyFavorites" class="secondary">Copy favourites</button>
+          <button id="copyUndecided" class="secondary">Copy middle</button>
+        </div>
+      </div>
+
+      <div class="board">
+        <section class="column rejectedCol">
+          <div class="columnHead">
+            <h3>✕ Rejected</h3>
+            <span id="rejectedCount">0</span>
+          </div>
+          
+          <div id="rejectedList" class="results dropList"></div>
+        </section>
+
+        <section class="column undecidedCol">
+          <div class="columnHead">
+            <h3>Checked / undecided</h3>
+            <span id="undecidedCount">0</span>
+          </div>
+          
+          <div id="undecidedList" class="results dropList"></div>
+        </section>
+
+        <section class="column favouriteCol">
+          <div class="columnHead">
+            <h3>★ Favourites</h3>
+            <span id="favoriteCount">0</span>
+          </div>
+          
+          <div id="favoriteList" class="results dropList"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
